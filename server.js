@@ -33,7 +33,6 @@ app.post("/api/notes", function (req, res) {
 	const notes = JSON.parse(fs.readFileSync("./db/db.json", "utf-8"));
 	const body = { ...req.body };
 	body.id = uuidv4();
-	console.log(body);
 	notes.push(body);
 
 	fs.writeFile("./db/db.json", JSON.stringify(notes), (err) => {
@@ -43,27 +42,11 @@ app.post("/api/notes", function (req, res) {
 
 app.delete("/api/notes/:id", (req, res) => {
 	const id = req.params.id;
-	console.log(id);
 	const data = JSON.parse(fs.readFileSync("./db/db.json", "utf-8"));
 	const items = data.filter((item) => item.id !== id);
 	fs.writeFileSync("./db/db.json", JSON.stringify(items), "utf-8");
 	res.send("Success");
 });
-// every post should have a response
-
-// setup route for deleting noteList
-/* 
-- read file 
-- parse
-- make sure array index is the same as post
-- filter array index
-- save to file 
-- return success message */
-// make function that does fetch for /api/notes.
-
-// save posts to db.json
-
-//uuid may be needed for giving posts index numbers
 
 app.listen(PORT, () => {
 	console.log(`listening at http://loalhost:${PORT}`);
