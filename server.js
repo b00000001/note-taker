@@ -3,13 +3,9 @@ const path = require("path"); // Will join the base directory with the directory
 const app = express();
 const PORT = process.env.port || 3000;
 const { v4: uuidv4 } = require("uuid");
-const notes = require("./db/db.json");
+// const notes = require("./db/db.json");
 const fs = require("fs");
 // require db.json
-
-app.listen(PORT, () => {
-	console.log(`listening at http://loalhost:${PORT}`);
-});
 
 // setup path for index.html
 app.get("/", (req, res) => {
@@ -27,12 +23,14 @@ app.use(express.json());
 
 // setup route for /api/notes/
 app.get("/api/notes", (req, res) => {
+	const notes = JSON.parse(fs.readFileSync("./db/db.json", "utf-8"));
 	res.json(notes);
 }); // make it so that new notes are written to db.json using the file system module.
 
 // make an api route for posting to notes.html
 
 app.post("/api/notes", function (req, res) {
+	const notes = JSON.parse(fs.readFileSync("./db/db.json", "utf-8"));
 	const body = { ...req.body };
 	body.id = uuidv4();
 	console.log(body);
@@ -66,3 +64,7 @@ app.delete("/api/notes/:id", (req, res) => {
 // save posts to db.json
 
 //uuid may be needed for giving posts index numbers
+
+app.listen(PORT, () => {
+	console.log(`listening at http://loalhost:${PORT}`);
+});
