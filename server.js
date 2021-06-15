@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path"); // Will join the base directory with the directory you're trying to access.
 const app = express();
-const PORT = process.env.port || 3000;
+const PORT = process.env.PORT || 3000;
 const { v4: uuidv4 } = require("uuid");
 // const notes = require("./db/db.json");
 const fs = require("fs");
@@ -28,7 +28,6 @@ app.get("/api/notes", (req, res) => {
 }); // make it so that new notes are written to db.json using the file system module.
 
 // make an api route for posting to notes.html
-
 app.post("/api/notes", function (req, res) {
 	const notes = JSON.parse(fs.readFileSync("./db/db.json", "utf-8"));
 	const body = { ...req.body };
